@@ -1,0 +1,89 @@
+通过C语言实现
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+#include <time.h>
+const int len = 50;
+int find(char box[len][len],int x,int y);
+void update(char box[len][len]);
+void display(char box[len][len]);
+void Start(char box[len][len]);
+int main(){
+    char cells[len][len];
+    char dsp[len][len];
+    srand((unsigned)time(NULL));
+    Start(cells);
+    int count = 1;
+    int isbreak = 0;
+    do{
+        update(cells);
+        //memccpy(dsp,cells,len*len,sizeof(char));
+        display(cells);
+        count++;
+        if(count==10){
+            printf("You Wanna Continue?\n");
+            printf("1 for Yes,0 for No");
+            scanf("%d",&isbreak);
+            if(isbreak){
+                break;
+            }else count =1;
+        }
+    }while(count <=10);
+    return 0;
+}
+void update(char box[len][len])
+{
+    int ner = 0;
+    for(int i=0;i<len;i++){
+        for(int j=0;j<len;j++){
+            ner = find(box,i,j);
+            switch (ner){
+                case 3:
+                    box[i][j] = '*';
+                    break;
+                case 2:
+                    break;
+                default :
+                    box[i][j] = ' ';
+                    break;
+            }
+        }
+    }
+
+}
+int find(char box[len][len],int x,int y){
+    int isfind = 0;
+    for(int i=max(x-1,0);i<=min(x+1,len);i++){
+        for(int j=max(y-1,0);j<=min(y+1,len);j++){
+            if(box[i][j]=='*'){
+                isfind++;
+            }
+        }
+    }
+    return isfind;
+}
+
+void display(char dsp[len][len]){
+    system("cls");
+    for(int i=0;i<len;i++){
+        for(int j=0;j<len;j++){
+            printf("%c ",dsp[i][j]);
+        }
+        printf("\n");
+    }
+    Sleep(300);
+}
+void Start(char box[len][len]){
+    int a;
+    for(int i=0;i<len;i++){
+        for(int j=0;j<len;j++){
+            a = rand()%2;
+            if(a == 1){
+                box[i][j]='*';
+            }else box[i][j]=' ';
+        }
+    }
+}
+```
